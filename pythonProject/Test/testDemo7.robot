@@ -6,9 +6,9 @@ Library       RequestsLibrary
 ${base_url}         https://rahulshettyacademy.com
 ${book_id}
 ${book_name}        RobotFramework
-
+${ID}=    Evaluate    str(uuid.uuid4())    uuid
 *** Test Cases ***
-Play around with Dictinoary
+Play around with Dictionary
     [Tags]      API
     &{data}=    Create Dictionary      name=rahulshetty     course=robot       website=rahulshettyacademy.com
     log     ${data}
@@ -20,7 +20,7 @@ Play around with Dictinoary
 
 Add Book into Library DataBase
         [Tags]      API
-      &{req_body}=  Create Dictionary    name=${book_name}        isbn=947303     aisle=324534        author=rahulshetty
+      &{req_body}=  Create Dictionary    name=${book_name}        isbn=${ID}     aisle=324534        author=rahulshetty
        ${response}=     POST        ${base_url}/Library/Addbook.php     json=${req_body}    expected_status=200
         log      ${response.json()}
         Dictionary Should Contain Key     ${response.json()}     ID
